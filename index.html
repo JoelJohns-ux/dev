@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Joel Johnson · Frontend Developer | SaaS & UI/UX Expert</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background-color: #070b14;
+      scroll-behavior: smooth;
+    }
+    /* custom glassmorphism, glows, and animations */
+    .glass-card {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 2rem;
+      transition: all 0.3s ease;
+    }
+    .glass-nav {
+      background: rgba(7, 11, 20, 0.75);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    .glow-hover:hover {
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.3), 0 0 5px rgba(56, 189, 248, 0.2);
+      border-color: rgba(56, 189, 248, 0.6);
+      transform: translateY(-4px);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #E0F2FE 0%, #38BDF8 50%, #818CF8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(56,189,248,0.2) 0%, rgba(56,189,248,0) 70%);
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    .scroll-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .project-card {
+      transition: all 0.35s ease;
+    }
+    .btn-primary {
+      background: linear-gradient(105deg, #0F172A 0%, #1E293B 100%);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      box-shadow: 0 4px 14px 0 rgba(56, 189, 248, 0.2);
+    }
+    .btn-primary:hover {
+      border-color: #38bdf8;
+      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.3);
+      transform: translateY(-2px);
+    }
+    input, textarea {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid #2d3a5e;
+      border-radius: 1.25rem;
+      transition: all 0.2s;
+      color: white;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+    /* custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2d3a5e;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body class="text-white antialiased">
+
+  <!-- Sticky Navbar with mobile menu -->
+  <nav class="glass-nav fixed w-full z-50 top-0 left-0 py-4 px-6 md:px-12 transition-all duration-300">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="text-2xl font-bold tracking-tight"><span class="gradient-text">Joel Johnson</span></div>
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex space-x-8 text-gray-300 font-medium">
+        <a href="#home" class="hover:text-sky-400 transition">Home</a>
+        <a href="#projects" class="hover:text-sky-400 transition">Work</a>
+        <a href="#skills" class="hover:text-sky-400 transition">Skills</a>
+        <a href="#about" class="hover:text-sky-400 transition">About</a>
+        <a href="#services" class="hover:text-sky-400 transition">Services</a>
+        <a href="#contact" class="hover:text-sky-400 transition">Contact</a>
+      </div>
+      <div class="md:hidden">
+        <button id="mobile-menu-btn" class="text-2xl focus:outline-none"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+    <!-- Mobile Menu (hidden by default) -->
+    <div id="mobile-menu" class="md:hidden hidden flex flex-col space-y-4 mt-4 pb-4 text-center text-gray-200 bg-[#0a0f1c]/90 backdrop-blur-xl rounded-2xl border border-sky-500/20 p-5">
+      <a href="#home" class="hover:text-sky-400 py-2">Home</a>
+      <a href="#projects" class="hover:text-sky-400 py-2">Projects</a>
+      <a href="#skills" class="hover:text-sky-400 py-2">Skills</a>
+      <a href="#about" class="hover:text-sky-400 py-2">About</a>
+      <a href="#services" class="hover:text-sky-400 py-2">Services</a>
+      <a href="#contact" class="hover:text-sky-400 py-2">Contact</a>
+    </div>
+  </nav>
+
+  <main class="overflow-x-hidden">
+    <!-- Hero Section -->
+    <section id="home" class="relative pt-36 md:pt-44 pb-20 px-6 md:px-12 overflow-hidden">
+      <div class="hero-glow top-20 -left-20 animate-float"></div>
+      <div class="hero-glow bottom-20 right-0 w-[600px] h-[600px] bg-sky-500/20 blur-[90px]"></div>
+      <div class="max-w-6xl mx-auto relative z-10 text-center md:text-left">
+        <div class="inline-block mb-5 px-4 py-1.5 rounded-full glass-card text-sky-300 text-sm font-semibold backdrop-blur-sm">✨ Self‑taught · SaaS specialist</div>
+        <h1 class="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">Crafting <span class="gradient-text">modern interfaces</span><br>that scale startups</h1>
+        <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto md:mx-0 mt-6 leading-relaxed">Specialized in Tailwind CSS, SaaS dashboards & premium UI/UX building high‑performance web apps with obsessive attention to detail.</p>
+        <div class="flex flex-wrap gap-5 justify-center md:justify-start mt-10">
+          <a href="#projects" class="btn-primary px-8 py-3 rounded-full font-semibold transition-all duration-300 flex items-center gap-2"><i class="fas fa-arrow-right"></i> View Projects</a>
+          <a href="#contact" class="px-8 py-3 rounded-full border border-sky-500/40 hover:bg-sky-500/10 transition-all duration-300 font-semibold flex items-center gap-2"><i class="fas fa-paper-plane"></i> Contact Me</a>
+        </div>
+      </div>
+      <!-- modern gradient edge decor -->
+      <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#070b14] to-transparent"></div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    <section id="projects" class="py-24 px-6 md:px-12 bg-[#0a0f19]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 scroll-reveal">
+          <span class="text-sky-400 uppercase tracking-wider text-sm font-semibold">Featured work</span>
+          <h2 class="text-4xl md:text-5xl font-bold mt-3">Modern SaaS & dashboard<br>craftsmanship</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- card 1: Escrow Platform -->
+<div class="glass-card rounded-2xl overflow-hidden project-card glow-hover transition-all duration-300 scroll-reveal">
+  <div class="h-48 overflow-hidden">
+  <img 
+    src="escrow.jpg" 
+    alt="Digital Escrow Platform Preview"
+    class="w-full h-full object-cover transition duration-500 hover:scale-105"
+  />
+</div>
+  <div class="p-6">
+    <h3 class="text-2xl font-bold">Digital Escrow Management Platform</h3>
+    <p class="text-gray-300 text-sm mt-2">
+      Secure escrow platform designed for transaction management, payment tracking, milestone handling, and user-friendly financial workflows.
+    </p>
+    <div class="flex flex-wrap gap-2 my-4">
+      <span class="px-2 py-1 bg-sky-500/20 rounded-full text-xs">Next.js</span>
+      <span class="px-2 py-1 bg-sky-500/20 rounded-full text-xs">Tailwind CSS</span>
+      <span class="px-2 py-1 bg-sky-500/20 rounded-full text-xs">Supabase</span>
+    </div>
+    <div class="flex gap-4 mt-4">
+      <a href="#" class="text-sky-400 text-sm hover:underline"><i class="fab fa-github"></i> GitHub</a>
+      <a href="http://iceiyescrow.iceiy.com" class="text-sky-400 text-sm hover:underline"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+    </div>
+  </div>
+</div>
+
+<!-- card 2: Survey Platform -->
+<div class="glass-card rounded-2xl overflow-hidden project-card glow-hover transition-all duration-300 scroll-reveal">
+  <div class="h-48 overflow-hidden">
+  <img 
+    src="survey.jpg" 
+    alt="Survey Platform Preview"
+    class="w-full h-full object-cover transition duration-500 hover:scale-105"
+  />
+</div>
+  <div class="p-6">
+    <h3 class="text-2xl font-bold">Interactive Survey Platform</h3>
+    <p class="text-gray-300 text-sm mt-2">
+      Responsive survey application built for collecting user responses through clean interfaces, form validation, and structured data capture.
+    </p>
+    <div class="flex flex-wrap gap-2 my-4">
+      <span class="px-2 py-1 bg-sky-500/20 rounded-full text-xs">React</span>
+      <span class="px-2 py-1 bg-sky-500/20 rounded-full text-xs">TypeScript</span>
+      <span class="px-2 py-1 bg-sky-500/20 rounded-full text-xs">Tailwind CSS</span>
+    </div>
+    <div class="flex gap-4 mt-4">
+      <a href="#" class="text-sky-400 text-sm hover:underline"><i class="fab fa-github"></i> GitHub</a>
+      <a href="http://insightconsumerindex.iceiy.com" class="text-sky-400 text-sm hover:underline"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+    </div>
+  </div>
+</div>
+
+<!-- card 3: Binance Campaign -->
+<div class="glass-card rounded-2xl overflow-hidden project-card glow-hover transition-all duration-300 scroll-reveal">
+  <div class="h-48 overflow-hidden">
+  <img 
+    src="crypto.jpg" 
+    alt="Crypto Campaign Platform Preview"
+    class="w-full h-full object-cover transition duration-500 hover:scale-105"
+  />
+</div>
+  <div class="p-6">
+    <h3 class="text-2xl font-bold">Crypto Rewards Campaign Platform</h3>
+    <p class="text-gray-300 text-sm mt-2">
+      Cryptocurrency promotional campaign interface inspired by exchange event systems, featuring modern UI, onboarding flows, and responsive layouts.
+    </p>
+    <div class="flex flex-wrap gap-2 my-4">
+      <span class="px-2 py-1 bg-sky-500/20 rounded-full text-xs">HTML</span>
+      <span class="px-2 py-1 bg-sky-500/20 rounded-full text-xs">Tailwind CSS</span>
+      <span class="px-2 py-1 bg-sky-500/20 rounded-full text-xs">JavaScript</span>
+    </div>
+    <div class="flex gap-4 mt-4">
+      <a href="#" class="text-sky-400 text-sm hover:underline"><i class="fab fa-github"></i> GitHub</a>
+      <a href="http://cz-binance.unaux.com" class="text-sky-400 text-sm hover:underline"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+    </div>
+  </div>
+</div>
+
+<!-- card 4: Banking Dashboard -->
+<div class="glass-card rounded-2xl overflow-hidden project-card glow-hover transition-all duration-300 scroll-reveal">
+  <div class="h-48 overflow-hidden">
+  <img 
+    src="banking.jpg" 
+    alt="Banking Platform Preview"
+    class="w-full h-full object-cover transition duration-500 hover:scale-105"
+  />
+</div>
+  <div class="p-6">
+    <h3 class="text-2xl font-bold">Modern Banking Dashboard UI</h3>
+    <p class="text-gray-300 text-sm mt-2">
+      Banking dashboard interface inspired by enterprise financial systems with account summaries, transaction tracking, and responsive UI components.
+    </p>
+    <div class="flex flex-wrap gap-2 my-4">
+      <span class="px-2 py-1 bg-sky-500/20 rounded-full text-xs">React</span>
+      <span class="px-2 py-1 bg-sky-500/20 rounded-full text-xs">TypeScript</span>
+      <span class="px-2 py-1 bg-sky-500/20 rounded-full text-xs">Tailwind CSS</span>
+    </div>
+    <div class="flex gap-4 mt-4">
+      <a href="#" class="text-sky-400 text-sm hover:underline"><i class="fab fa-github"></i> GitHub</a>
+      <a href="https://tokensecure.unaux.com" class="text-sky-400 text-sm hover:underline"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+    <!-- Skills Section grid -->
+    <section id="skills" class="py-24 px-6 md:px-12">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center scroll-reveal"><span class="text-sky-400 text-sm font-semibold uppercase">tech stack & tools</span><h2 class="text-4xl font-bold mt-2">Modern frontend artillery</h2></div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-16">
+          <div class="glass-card p-6 text-center rounded-2xl backdrop-blur hover:glow-hover transition scroll-reveal"><i class="fab fa-react text-4xl text-sky-400"></i><p class="mt-3 font-medium">React</p></div>
+          <div class="glass-card p-6 text-center rounded-2xl backdrop-blur hover:glow-hover transition scroll-reveal"><i class="fab fa-node-js text-4xl text-emerald-400"></i><p class="mt-3 font-medium">Next.js</p></div>
+          <div class="glass-card p-6 text-center rounded-2xl backdrop-blur hover:glow-hover transition scroll-reveal"><i class="fa-brands fa-css3-alt text-4xl text-cyan-500"></i><p class="mt-3 font-medium">Tailwind CSS</p></div>
+          <div class="glass-card p-6 text-center rounded-2xl backdrop-blur hover:glow-hover transition scroll-reveal"><i class="fas fa-code text-4xl text-blue-500"></i><p class="mt-3 font-medium">TypeScript</p></div>
+          <div class="glass-card p-6 text-center rounded-2xl backdrop-blur hover:glow-hover transition scroll-reveal">
+          <i class="fas fa-fire text-4xl text-amber-400"></i>
+          <p class="mt-3 font-medium">Firebase</p>
+         </div>
+          <div class="glass-card p-6 text-center rounded-2xl backdrop-blur hover:glow-hover transition scroll-reveal">
+          <i class="fas fa-server text-4xl text-emerald-400"></i>
+          <p class="mt-3 font-medium">Supabase</p>
+         </div>
+          <div class="glass-card p-6 text-center rounded-2xl backdrop-blur hover:glow-hover transition scroll-reveal"><i class="fab fa-node text-4xl text-green-400"></i><p class="mt-3 font-medium">Node.js</p></div>
+          <div class="glass-card p-6 text-center rounded-2xl backdrop-blur hover:glow-hover transition scroll-reveal"><i class="fas fa-pen-ruler text-4xl text-pink-400"></i><p class="mt-3 font-medium">UI/UX Design</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-6 md:px-12 bg-[#0a0f19]">
+      <div class="max-w-5xl mx-auto glass-card p-8 md:p-12 rounded-3xl scroll-reveal">
+        <div class="flex flex-col md:flex-row gap-10 items-center">
+          <div class="w-32 h-32 rounded-full bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-5xl font-bold shadow-xl">JJ</div>
+          <div>
+  <h2 class="text-3xl font-bold">Self-taught, product-driven developer</h2>
+
+  <p class="text-gray-300 mt-4 leading-relaxed">
+    I'm Joel, a passionate frontend engineer who transitioned from design into development, building scalable web applications with an obsessive focus on UI polish and startup velocity.
+  </p>
+
+  <p class="text-gray-300 mt-4 leading-relaxed">
+    Over the last 4 years, I have collaborated with early-stage SaaS projects, delivering dashboard experiences that combine clean data visualization, real-time interactions, and premium aesthetics. My toolkit revolves around Next.js, Tailwind, and modern backend services like Supabase.
+  </p>
+
+  <p class="text-gray-300 mt-4 leading-relaxed">
+    I thrive at the intersection of design and code turning complex requirements into intuitive, fast, and visually refined interfaces that users enjoy using.
+  </p>
+</div>
+        </div>
+      </div>
+    </section>
+
+     <!-- Experience / Services Section -->
+    <section id="services" class="py-24 px-6 md:px-12">
+      <div class="max-w-7xl mx-auto text-center mb-12 scroll-reveal"><span class="text-sky-400 text-xl font-semibold">what i deliver</span><h2 class="text-4xl font-bold mt-2">Expertise for modern startups</h2></div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+        <div class="glass-card p-7 rounded-2xl text-center hover:glow-hover scroll-reveal"><div class="text-4xl mb-3"><i class="fas fa-code text-sky-400"></i></div><h3 class="text-xl font-bold">Frontend Development</h3><p class="text-gray-300 text-sm mt-2">High‑performance React, Next.js apps with pixel-perfect responsive layouts.</p></div>
+        <div class="glass-card p-7 rounded-2xl text-center hover:glow-hover scroll-reveal"><div class="text-4xl mb-3"><i class="fas fa-mobile-alt text-sky-400"></i></div><h3 class="text-xl font-bold">Responsive Web Design</h3><p class="text-gray-300 text-sm mt-2">Every interface fluid, mobile-first & accessible across all devices.</p></div>
+        <div class="glass-card p-7 rounded-2xl text-center hover:glow-hover scroll-reveal"><div class="text-4xl mb-3"><i class="fas fa-chart-pie text-sky-400"></i></div><h3 class="text-xl font-bold">SaaS Dashboards</h3><p class="text-gray-300 text-sm mt-2">Analytics, admin panels, CRM, fintech dashboards with realtime data.</p></div>
+        <div class="glass-card p-7 rounded-2xl text-center hover:glow-hover scroll-reveal"><div class="text-4xl mb-3"><i class="fas fa-palette text-sky-400"></i></div><h3 class="text-xl font-bold">Startup UI Design</h3><p class="text-gray-300 text-sm mt-2">Design systems, glassmorphism, modern gradients & storytelling.</p></div>
+        <div class="glass-card p-7 rounded-2xl text-center hover:glow-hover scroll-reveal"><div class="text-4xl mb-3"><i class="fas fa-globe text-sky-400"></i></div><h3 class="text-xl font-bold">Web App Development</h3><p class="text-gray-300 text-sm mt-2">Full‑cycle MVPs, authentication, API integrations & deployment.</p></div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 px-6 md:px-12 bg-[#0a0f19]">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-14 items-start">
+
+    <!-- Left Side -->
+    <div class="scroll-reveal">
+      <h2 class="text-3xl font-bold leading-tight">
+        Let’s build something <span class="gradient-text">exceptional</span>
+      </h2>
+
+      <p class="text-gray-300 mt-6 leading-relaxed">
+        Remote · Freelance · Contract  I’m available for collaborations with product-led startups.
+      </p>
+    </div>
+
+    <!-- Right Side Form -->
+    <div class="glass-card p-8 rounded-2xl scroll-reveal">
+      <form id="contactForm" action="#" method="post" class="space-y-5">
+
+        <input 
+          type="text" 
+          placeholder="Full name" 
+          class="w-full p-3 rounded-xl"
+          required
+        >
+
+        <input 
+          type="email" 
+          placeholder="Email address" 
+          class="w-full p-3 rounded-xl"
+          required
+        >
+
+        <textarea 
+          rows="5" 
+          placeholder="Tell me about your project..."
+          class="w-full p-3 rounded-xl"
+        ></textarea>
+
+        <button 
+          type="submit" 
+          class="w-full btn-primary py-3 rounded-xl font-bold transition flex justify-center items-center gap-2"
+        >
+          <i class="fas fa-paper-plane"></i>
+          Send Message
+        </button>
+
+        <p id="formFeedback" class="text-green-400 text-sm mt-4 text-center hidden">
+          Message sent
+        </p>
+
+      </form>
+    </div>
+
+  </div>
+</section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-8 px-6 text-center text-gray-400 text-sm">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+    <span>© 2026 Joel Johnson. Self-taught frontend architect</span>
+    <div class="flex gap-5 text-lg">
+      <a href="#" class="hover:text-sky-400 transition">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="#" class="hover:text-sky-400 transition">
+        <i class="fab fa-dribbble"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+</main>
+
+  <!-- Scroll reveal & mobile menu toggles -->
+  <script>
+    // scroll reveal animation using Intersection Observer
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+    revealElements.forEach(el => observer.observe(el));
+
+    // mobile menu toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+      // Close menu when clicking on any link
+      const mobileLinks = mobileMenu.querySelectorAll('a');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+      });
+    }
+
+    // contact form fake submit (demo)
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const feedback = document.getElementById('formFeedback');
+        feedback.classList.remove('hidden');
+        setTimeout(() => feedback.classList.add('hidden'), 2500);
+        contactForm.reset();
+      });
+    }
+
+    // smooth anchor scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === "#" || href === "") return;
+        const targetElem = document.querySelector(href);
+        if (targetElem) {
+          e.preventDefault();
+          targetElem.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
