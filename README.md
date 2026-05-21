@@ -26,7 +26,7 @@ I enjoy turning ideas into real products using modern web technologies.
 
 ## 🌐 Live Portfolio
 
-👉 https://your-domain.com (replace with your link)
+👉 https://joeljohns-ux.github.io/dev
 
 ## 📬 Contact
 
